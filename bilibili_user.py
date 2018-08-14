@@ -12,8 +12,10 @@ from time import ctime, sleep
 conn_ = MysqlConnect()
 urls = []
 base_url = 'https://api.bilibili.com/x/web-interface/card?mid='
+
 headers = {
-    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'}
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHT'
+                  'ML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'}
 
 for m in range(5216, 5230):
     for i in range(m * 100, (m + 10) * 100):
@@ -23,6 +25,7 @@ for m in range(5216, 5230):
 
 def getsource(url):
     try:
+        # 网络请求
         jscontent = requests.get(url, headers=headers).text
         parser(jscontent)
     except requests.HTTPError as e:
@@ -46,6 +49,7 @@ def parser(jscontent):
     friend = jscard['friend']
     data = [mid, name, sex, current_level, description, fans, friend]
     print(data)
+    # 插入数据库
     conn_.insertdb(data)
 
 
